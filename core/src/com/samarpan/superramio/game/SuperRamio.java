@@ -126,7 +126,7 @@ public class SuperRamio extends ApplicationAdapter
             // GAME IS LIVE !!!
 
 
-            ////////  start of coin part
+            ///////// start of coin part
 
             if(coinCount < 100)                                          // coin frequency controller
             {
