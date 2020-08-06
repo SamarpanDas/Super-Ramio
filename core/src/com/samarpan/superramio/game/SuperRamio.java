@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import javax.xml.soap.Text;
 
-public class SuperRamio extends ApplicationAdapter {
+public class SuperRamio extends ApplicationAdapter
+{
 	SpriteBatch batch;
 	Texture background;   // texture is imp for adding any image
     Texture[] man;      // texture array is needed for the man as showing a number of frames(pics) continuously will give the
@@ -16,6 +17,9 @@ public class SuperRamio extends ApplicationAdapter {
 
     int manState = 0;
     int pause = 0;
+    float gravity = 0.2f;
+    float velocity = 0;
+    int manY = 0;
 
 	
 	@Override
@@ -29,6 +33,9 @@ public class SuperRamio extends ApplicationAdapter {
         man[2] = new Texture("frame-3.png");
         man[3] = new Texture("frame-4.png");
 
+
+        manY = Gdx.graphics.getHeight()/2 ;
+
 	}
 
 	@Override
@@ -38,6 +45,24 @@ public class SuperRamio extends ApplicationAdapter {
 
         batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());  //showing background
                 // 0, 0 is the starting pos of the getWidth and Height will fill the entire height and width
+
+
+
+
+
+
+        // working with touch
+        if(Gdx.input.justTouched())
+        {
+            velocity = -10;
+
+        }
+
+
+
+
+
+
 
 
 
@@ -56,9 +81,16 @@ public class SuperRamio extends ApplicationAdapter {
         }
 
 
+        velocity += gravity;
+        manY -= velocity;
+
+        if(manY <= 0)
+            manY = 0;
+
+
 
         //batch.draw(man[0], Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/4);
-        batch.draw(man[manState], Gdx.graphics.getWidth()/2 - man[manState].getWidth()/2, Gdx.graphics.getHeight()/2 - man[manState].getWidth()/2);
+        batch.draw(man[manState], Gdx.graphics.getWidth()/2 - man[manState].getWidth()/2, manY);
         // getting the man at the exact center pos
 
 
