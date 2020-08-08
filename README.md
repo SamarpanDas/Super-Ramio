@@ -19,7 +19,7 @@ GO give it a shot & see how many coins Ramio collects with your direction.
 
 
 
-# This is an abolutely free to use, light weight, easy to use game & is compatible with most ANDROID phones.
+# This is an abolutely free, light weight, easy to use game & is compatible with most Android phones.
 
 Improvement in Version 2.0.0 : Audio has been added to the Super Ramio game which was not present in Version 1.0.0 or Version 1.1.0 .
                                A bug has been fixed which was causing a crash in case Ramio collides with a bomb and a coin simultaneaously.
