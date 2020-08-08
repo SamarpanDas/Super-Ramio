@@ -2,6 +2,7 @@ package com.samarpan.superramio.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +12,11 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 
+
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import javax.xml.soap.Text;
 
@@ -34,6 +38,7 @@ public class SuperRamio extends ApplicationAdapter
 
     int score = 0;
     int gameState = 0;
+    int sleep = 0;
 
 
     ArrayList<Integer> coinXs = new ArrayList<Integer>();
@@ -51,6 +56,13 @@ public class SuperRamio extends ApplicationAdapter
     ArrayList<Rectangle> bombRectangles = new ArrayList<Rectangle>();
     Texture bomb;
     int bombCount;
+
+
+    Sound coinSound;
+    Sound dieSound;
+    Sound jumpSound;
+
+
 
 
 
@@ -84,6 +96,10 @@ public class SuperRamio extends ApplicationAdapter
         font.setColor(Color.WHITE);
         font.getData().setScale(10);
 
+
+        coinSound = Gdx.audio.newSound(Gdx.files.internal("coin.wav"));
+        dieSound = Gdx.audio.newSound(Gdx.files.internal("die.wav"));
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump.wav"));
 
 	}
 
@@ -178,6 +194,7 @@ public class SuperRamio extends ApplicationAdapter
             if(Gdx.input.justTouched())
             {
                 velocity = -10;
+                jumpSound.play();
             }
             //////////////
 
@@ -221,6 +238,11 @@ public class SuperRamio extends ApplicationAdapter
         {
             // GAME OVER
 
+
+
+
+
+
             if(Gdx.input.justTouched())  // game will start once screen is touched
             {
                 gameState = 1;
@@ -238,9 +260,6 @@ public class SuperRamio extends ApplicationAdapter
                 bombRectangles.clear();
                 bombCount = 0;
             }
-
-
-
         }
 
 
@@ -252,6 +271,27 @@ public class SuperRamio extends ApplicationAdapter
         if(gameState == 2)
         {
             batch.draw(dizzy, Gdx.graphics.getWidth()/2 - man[manState].getWidth()/2, manY);
+
+            /*
+
+            if(sleep == 1)
+            {
+                try{
+                    Thread.sleep(2000);
+
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                sleep = 0;
+            }
+            */
+
+
+
+
+
         }else {
             //batch.draw(man[0], Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/4);
             batch.draw(man[manState], Gdx.graphics.getWidth()/2 - man[manState].getWidth()/2, manY);
@@ -271,6 +311,7 @@ public class SuperRamio extends ApplicationAdapter
                 Gdx.app.log("Index ::", Integer.toString(i));
 
                 score++;
+                coinSound.play();
                 coinRectangles.remove(i);
                 coinXs.remove(i);
                 coinYs.remove(i);
@@ -284,10 +325,11 @@ public class SuperRamio extends ApplicationAdapter
             {
                 Gdx.app.log("Bomb ::::", "Collision !!!");
                 Gdx.app.log("Index ::", Integer.toString(i));
+                dieSound.play();
 
 
                 gameState = 2;     // ending the game
-
+                sleep = 1;
 
             }
         }
